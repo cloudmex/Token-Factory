@@ -5,7 +5,7 @@ import DefaultTokenIcon from './default-token.jpg';
 import Big from 'big.js';
 import ls from "local-storage";
 
-export const ContractName = 'dev-1634069815926-48042760709553';
+export const ContractName = 'dev-1634618467984-96560315274593';
 const ExplorerBaseUrl = 'https://explorer.testnet.near.org';
 
 function Table({ columns, data }) {
