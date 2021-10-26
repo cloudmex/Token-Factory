@@ -9,7 +9,7 @@
 
 html {
   --bg: #efefef;
-  --fg: #1e1e1e;
+  --fg: #ffffff;
   --gray: #555;
   --light-gray: #ccc;
   --shadow: #e6e6e6;
@@ -26,7 +26,8 @@ html {
 
 body {
   margin: 0;
-  padding: 1em;
+  /* padding: 1em; */
+  background-color: #FFFFFF !important;
 }
 
 main {
