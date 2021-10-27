@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { login, logout } from './utils'
 import "./App.css";
-import './styles/style1.css'
 import Navbar from './components/Navbar';
 import NearIcon from './assets/img/near_icon.png';
 import MyTokens from './pages/MyTokens';
@@ -36,9 +35,8 @@ export default function App() {
 
   React.useEffect(
     () => {
-      console.log(window.walletConnection)
-    },
-    []
+
+    },[]
   )
 
   // if not signed in, return early with sign-in prompt

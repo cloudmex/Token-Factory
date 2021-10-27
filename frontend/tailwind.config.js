@@ -10,6 +10,10 @@ module.exports = {
       'NewGray': '#f4f4f4',
       'NearNavBar': '#f0f0f1',
       'TextGray' : '#72727a'
+    }),
+    textColor: theme => ({
+      ...theme('colors'),
+      'BlueHeader': '#0056b4'
     })
   },
   variants: {

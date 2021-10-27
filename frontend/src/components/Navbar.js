@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import Button from "@material-tailwind/react/Button";
 import Icon from "@material-tailwind/react/Icon";
 import NavbarInput from "@material-tailwind/react/NavbarInput";
@@ -21,6 +21,7 @@ import TabPane from "@material-tailwind/react/TabPane";
 import CardHeader from "@material-tailwind/react/CardHeader";
 import ProfilePicture from "../assets/img/profile.png";
 import NearLogo from "../assets/img/near_logo.png";
+import { useParams } from "react-router";
 
 // Mat Icons
 import PersonIcon from '@material-ui/icons/Person';
@@ -30,7 +31,9 @@ import { login, logout } from '../utils'
 import getConfig from '../config'
 const { networkId } = getConfig(process.env.NODE_ENV || 'development')
 
-export default function Navbar({ showSidebar, setShowSidebar }) {
+export default function Navbar(props) {
+    const location = useLocation();
+    console.log(location.pathname);
 
     const styles = {
         select: {
@@ -41,43 +44,25 @@ export default function Navbar({ showSidebar, setShowSidebar }) {
 
     useEffect(() => {
         (async () => {
-            try {
-                
-                HeaderView();
-            } catch (error) {
-
-            }
-
-            try {
-
-            } catch (error) {
-
-            }
 
         })();
     }, []);
 
-    function HeaderView() {
-        const location = useLocation();
-        console.log(location.pathname);
-        return <span>Path : {location.pathname}</span>
-      }
-
     return (
-        <header class="w-full bg-white p-2 flex justify-between items-center border-b-2 ">
-            <nav class="flex items-center justify-center">
-                <img class="w-35 h-10" src={NearLogo} />
-                <div class="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="Tokens" class="bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline">All Tokens</a>
+        <header className="w-full bg-white p-2 flex justify-between items-center border-b-2 ">
+            <nav className="flex items-center justify-center">
+                <img className="w-35 h-10" src={NearLogo} />
+                <div className="text-TextGray text-xs hidden sm:block ml-2">
+                    <a href="Tokens" className={(location.pathname == '/Tokens' || (location.pathname != '/MyTokens' && location.pathname != '/NewToken')) ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>All Tokens</a>
                 </div>
-                <div class="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="MyTokens" class="bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline">My Tokens</a>
+                <div className="text-TextGray text-xs hidden sm:block ml-2">
+                    <a href="MyTokens" className={(location.pathname == '/MyTokens') ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>My Tokens</a>
                 </div>
-                <div class="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="NewToken" class="bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline">New Token</a>
+                <div className="text-TextGray text-xs hidden sm:block ml-2">
+                    <a href="NewToken" className={(location.pathname == '/NewToken') ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>New Token</a>
                 </div>
             </nav>
-            <div class="cursor-pointer flex justify-center items-center">
+            <div className="cursor-pointer flex justify-center items-center">
 
                 <Menu as="div" className="ml-3 relative">
                     <div>

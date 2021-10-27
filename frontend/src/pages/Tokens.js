@@ -65,9 +65,9 @@ export default function Tokens() {
     }
 
     return (
-        <div className="grid grid-cols-4 gap-2 place-content-stretch mt-8">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 mt-8">
             {allTokens ? allTokens.map((token) => (
-                <div key={token.metadata.symbol} className="w-2/3 h-2/3 bg-NewGray rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center mx-auto">
+                <div key={token.metadata.symbol} className="w-4/5 h-2/3 bg-NewGray rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center mx-auto">
                     <div className="mb-2 mt-2 cursor-pointer" onClick={() => showDataToken(token)}>
                         <img className="object-center object-cover rounded-full h-15 w-15" src={token.metadata.icon || DefaultTokenIcon} />
                     </div>
@@ -77,7 +77,7 @@ export default function Tokens() {
                     </div>
                     <div className="mb-2">
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 text-xs rounded" onClick={() => registerToken(token.metadata.symbol)}>
-                            Add to NEAR Wallet
+                            Add to NEAR<br/>Wallet
                         </button>
                     </div>
                 </div>
