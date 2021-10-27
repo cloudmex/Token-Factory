@@ -16,7 +16,6 @@ import ModalHeader from "@material-tailwind/react/ModalHeader";
 import ModalBody from "@material-tailwind/react/ModalBody";
 import { Fragment } from 'react';
 import { Nav, NavDropdown } from 'react-bootstrap';
-
 import TabContent from "@material-tailwind/react/TabContent";
 import TabPane from "@material-tailwind/react/TabPane";
 import CardHeader from "@material-tailwind/react/CardHeader";
@@ -43,7 +42,8 @@ export default function Navbar({ showSidebar, setShowSidebar }) {
     useEffect(() => {
         (async () => {
             try {
-
+                
+                HeaderView();
             } catch (error) {
 
             }
@@ -57,28 +57,34 @@ export default function Navbar({ showSidebar, setShowSidebar }) {
         })();
     }, []);
 
+    function HeaderView() {
+        const location = useLocation();
+        console.log(location.pathname);
+        return <span>Path : {location.pathname}</span>
+      }
+
     return (
-        <header class="w-full bg-NewGray p-2 flex justify-between items-center">
+        <header class="w-full bg-white p-2 flex justify-between items-center border-b-2 ">
             <nav class="flex items-center justify-center">
                 <img class="w-35 h-10" src={NearLogo} />
-                <div class="text-white text-xs hidden sm:block ml-2">
-                    <a href="Tokens" class="bg-gray-900 hover:bg-gray-700 p-2 rounded cursor-pointer ml-1">All Tokens</a>
+                <div class="text-TextGray text-xs hidden sm:block ml-2">
+                    <a href="Tokens" class="bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline">All Tokens</a>
                 </div>
-                <div class="text-white text-xs hidden sm:block ml-2">
-                    <a href="MyTokens" class="bg-gray-900 hover:bg-gray-700 p-2 rounded cursor-pointer ml-1">My Tokens</a>
+                <div class="text-TextGray text-xs hidden sm:block ml-2">
+                    <a href="MyTokens" class="bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline">My Tokens</a>
                 </div>
-                <div class="text-white text-xs hidden sm:block ml-2">
-                    <a href="NewToken" class="bg-gray-900 hover:bg-gray-700 p-2 rounded cursor-pointer ml-1">New Token</a>
+                <div class="text-TextGray text-xs hidden sm:block ml-2">
+                    <a href="NewToken" class="bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline">New Token</a>
                 </div>
             </nav>
             <div class="cursor-pointer flex justify-center items-center">
 
                 <Menu as="div" className="ml-3 relative">
                     <div>
-                        <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:ring-offset-2 focus:ring-offset-gray-800 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-opacity-50 p-1">
+                        <Menu.Button className="bg-NewGray flex text-sm rounded-full focus:ring-offset-2 focus:ring-offset-gray-800 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-opacity-50 p-1">
                             {/* Photo Profile */}
                             <img className="h-8 w-8 rounded-full" src={ProfilePicture} alt="" />
-                            <label className="text-white text-base my-auto ml-2 cursor-pointer">{window.accountId}</label>
+                            <label className="text-TextGray text-base my-auto ml-2 cursor-pointer">{window.accountId}</label>
                         </Menu.Button>
                     </div>
                     <Transition

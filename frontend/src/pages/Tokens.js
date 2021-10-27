@@ -2,8 +2,14 @@
 import React, { useEffect, useContext, useState } from 'react';
 import DefaultTokenIcon from '../assets/img/default-token.jpg';
 import getConfig from '../config'
-import * as nearAPI from 'near-api-js';
+import { connect, Contract, keyStores, WalletConnection } from 'near-api-js'
+import Big from 'big.js';
+import Swal from 'sweetalert2'
+
 const { contractName } = getConfig(process.env.NODE_ENV || 'development')
+const TGas = Big(10).pow(12);
+const BoatOfGas = Big(200).mul(TGas);
+const StorageDeposit = Big(125).mul(Big(10).pow(19));
 
 export default function Tokens() {
     const [allTokens, setTokens] = useState();
@@ -17,31 +23,60 @@ export default function Tokens() {
                     window.contract.get_tokens({ from_index: 0, limit: numTokens })
                         .then(tokens => {
                             setTokens(tokens);
-                            setTimeout(_ => {
-                                console.log(allTokens);
-                            }, 1000)
                         })
                 })
         }
     }, []);
 
-    const registerToken = (tokenId) => {
-        console.log(tokenId);
+    const registerToken = async (tokenId) => {
+        const tokenContractId = tokenId.toLowerCase() + '.' + contractName;
+        const tokenContract = new Contract(window.walletConnection.account(), tokenContractId, {
+            changeMethods: ['storage_deposit'],
+        });
+        await tokenContract.storage_deposit({
+            registration_only: true,
+        }, BoatOfGas.toFixed(0), StorageDeposit.toFixed(0));
+
+    }
+
+    const showDataToken = (token) => {
+        Swal.fire({
+            title: '',
+            html:`
+                <div style='display: flex; justify-content: center; margin-bottom:5px;'>
+                    <img className="object-center object-cover rounded-full h-15 w-15" src=${token.metadata.icon || DefaultTokenIcon} />
+                </div>
+                <div style='text-align: center;'>
+                    <div><b>Name:</b> <span>${token.metadata.name}</span></div>
+                    <div><b>Symbol:</b> <span>${token.metadata.symbol}</span></div>
+                    <div><b>Owner:</b> <span>${token.owner_id}</span></div>
+                    <div><b>Supply:</b> <span>${Big(token.total_supply).div(Big(10).pow(token.metadata.decimals)).round(0, 0).toFixed(0)}</span></div>
+                </div>
+                `,
+            allowOutsideClick: true,
+            showCancelButton: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Close',
+            confirmButtonColor: '#3b82f6',
+            onBeforeOpen: () => {
+              Swal.showLoading()
+            }
+          });
     }
 
     return (
-        <div class="grid grid-cols-4 gap-2 place-content-stretch mt-8">
+        <div className="grid grid-cols-4 gap-2 place-content-stretch mt-8">
             {allTokens ? allTokens.map((token) => (
-                <div key={token.metadata.symbol} class="w-2/3 h-2/3 bg-NewGray rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center mx-auto">
-                    <div class="mb-2 mt-2">
-                        <img class="object-center object-cover rounded-full h-15 w-15" src={token.metadata.icon || DefaultTokenIcon} />
+                <div key={token.metadata.symbol} className="w-2/3 h-2/3 bg-NewGray rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center mx-auto">
+                    <div className="mb-2 mt-2 cursor-pointer" onClick={() => showDataToken(token)}>
+                        <img className="object-center object-cover rounded-full h-15 w-15" src={token.metadata.icon || DefaultTokenIcon} />
                     </div>
-                    <div class="text-center mb-2">
-                        <p class="text-xl text-NearBlack font-bold mb-2">{token.metadata.name}</p>
-                        <p class="text-base text-NearBlack font-normal">{token.metadata.symbol}</p>
+                    <div className="text-center cursor-pointer" onClick={() => showDataToken(token)}>
+                        <p className="text-xl text-NearBlack font-bold mb-2">{token.metadata.name}</p>
+                        {/* <p className="text-base text-NearBlack font-normal">{token.metadata.symbol}</p> */}
                     </div>
                     <div className="mb-2">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 text-xs rounded" onClick={() => registerToken(token.metadata.symbol)}>
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 text-xs rounded" onClick={() => registerToken(token.metadata.symbol)}>
                             Add to NEAR Wallet
                         </button>
                     </div>

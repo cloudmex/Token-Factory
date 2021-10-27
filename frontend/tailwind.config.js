@@ -7,8 +7,9 @@ module.exports = {
       'NearDarkGray': '#3F4246',
       'NearLightGray': '#A7A7A7',
       'NearBlack': '#262626',
-      'NearNavBar': '#fcfcfc',
-      'NewGray': '#f4f4f4'
+      'NewGray': '#f4f4f4',
+      'NearNavBar': '#f0f0f1',
+      'TextGray' : '#72727a'
     })
   },
   variants: {
