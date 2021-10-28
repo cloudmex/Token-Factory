@@ -1,7 +1,7 @@
 import 'regenerator-runtime/runtime'
-import React, { useState } from 'react';
+import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { login, logout } from './utils'
+import { login } from './utils'
 import "./App.css";
 import Navbar from './components/Navbar';
 import NearIcon from './assets/img/near_icon.png';
@@ -9,29 +9,7 @@ import MyTokens from './pages/MyTokens';
 import NewToken from './pages/NewToken';
 import Tokens from './pages/Tokens';
 
-import getConfig from './config'
-const { networkId } = getConfig(process.env.NODE_ENV || 'development')
-
 export default function App() {
-  const [newToken, setNewToken] = useState({ name: "", symbol: "", supply: 1000000000, decimal: 18 });
-  const [fileName, setFileName] = useState(null);
-
-  const onChange = e => {
-    e.preventDefault();
-    setNewToken({ ...newToken, [e.target.name]: e.target.value });
-  }
-
-  const onChangeFile = e => {
-    setFileName(e.target.files[0]);
-  }
-
-  const saveNewToken = e => {
-    e.preventDefault();
-    newToken.supply = parseInt(newToken.supply);
-    newToken.decimal = parseInt(newToken.decimal)
-    console.log(newToken);
-    console.log(fileName);
-  }
 
   React.useEffect(
     () => {
@@ -45,7 +23,7 @@ export default function App() {
       <div className="pt-5">
         <div className="w-2/3 h-2/3 bg-NewGray rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center mx-auto">
           <div className="mb-2 mt-2">
-            <img className="object-center object-cover rounded-full h-12 w-12" src={NearIcon} />
+            <img className="object-center object-cover rounded-full h-12 w-12" src={NearIcon} alt="logo"/>
           </div>
           <div className="mb-2 mt-2">
             <p className="text-xl text-NearBlack font-bold mb-2">Welcome to TOKEN FACTORY</p>

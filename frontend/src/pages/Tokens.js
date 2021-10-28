@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DefaultTokenIcon from '../assets/img/default-token.jpg';
 import getConfig from '../config'
-import { connect, Contract, keyStores, WalletConnection } from 'near-api-js'
+import { Contract } from 'near-api-js'
 import Big from 'big.js';
 import Swal from 'sweetalert2'
 
@@ -69,7 +69,7 @@ export default function Tokens() {
             {allTokens ? allTokens.map((token) => (
                 <div key={token.metadata.symbol} className="w-4/5 h-2/3 bg-NewGray rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center mx-auto">
                     <div className="mb-2 mt-2 cursor-pointer" onClick={() => showDataToken(token)}>
-                        <img className="object-center object-cover rounded-full h-15 w-15" src={token.metadata.icon || DefaultTokenIcon} />
+                        <img className="object-center object-cover rounded-full h-15 w-15" src={token.metadata.icon || DefaultTokenIcon} alt="icon"/>
                     </div>
                     <div className="text-center cursor-pointer" onClick={() => showDataToken(token)}>
                         <p className="text-xl text-NearBlack font-bold mb-2">{token.metadata.name}</p>

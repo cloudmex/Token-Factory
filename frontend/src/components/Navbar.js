@@ -1,46 +1,17 @@
 import { useLocation } from 'react-router-dom';
-import Button from "@material-tailwind/react/Button";
-import Icon from "@material-tailwind/react/Icon";
-import NavbarInput from "@material-tailwind/react/NavbarInput";
-import Image from "@material-tailwind/react/Image";
-import Dropdown from "@material-tailwind/react/Dropdown";
-import DropdownItem from "@material-tailwind/react/DropdownItem";
-import Card from "@material-tailwind/react/Card";
-import Input from "@material-tailwind/react/Input";
-import Switch from '@material-ui/core/Switch';
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { MenuIcon, XIcon } from '@heroicons/react/outline'
-import React, { useState, useEffect } from "react";
-import Modal from "@material-tailwind/react/Modal";
-import ModalHeader from "@material-tailwind/react/ModalHeader";
-import ModalBody from "@material-tailwind/react/ModalBody";
+import { Menu, Transition } from '@headlessui/react';
+import React, { useEffect } from "react";
 import { Fragment } from 'react';
-import { Nav, NavDropdown } from 'react-bootstrap';
-import TabContent from "@material-tailwind/react/TabContent";
-import TabPane from "@material-tailwind/react/TabPane";
-import CardHeader from "@material-tailwind/react/CardHeader";
+import { NavDropdown } from 'react-bootstrap';
 import ProfilePicture from "../assets/img/profile.png";
 import NearLogo from "../assets/img/near_logo.png";
-import { useParams } from "react-router";
 
 // Mat Icons
-import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { login, logout } from '../utils'
-
-import getConfig from '../config'
-const { networkId } = getConfig(process.env.NODE_ENV || 'development')
+import { logout } from '../utils'
 
 export default function Navbar(props) {
     const location = useLocation();
-    console.log(location.pathname);
-
-    const styles = {
-        select: {
-            width: '100%',
-            maxWidth: 600
-        }
-    }
 
     useEffect(() => {
         (async () => {
@@ -51,15 +22,15 @@ export default function Navbar(props) {
     return (
         <header className="w-full bg-white p-2 flex justify-between items-center border-b-2 ">
             <nav className="flex items-center justify-center">
-                <img className="w-35 h-10" src={NearLogo} />
+                <img className="w-35 h-10" src={NearLogo} alt="logo"/>
                 <div className="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="Tokens" className={(location.pathname == '/Tokens' || (location.pathname != '/MyTokens' && location.pathname != '/NewToken')) ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>All Tokens</a>
+                    <a href="Tokens" className={(location.pathname === '/Tokens' || (location.pathname !== '/MyTokens' && location.pathname !== '/NewToken')) ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>All Tokens</a>
                 </div>
                 <div className="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="MyTokens" className={(location.pathname == '/MyTokens') ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>My Tokens</a>
+                    <a href="MyTokens" className={(location.pathname === '/MyTokens') ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>My Tokens</a>
                 </div>
                 <div className="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="NewToken" className={(location.pathname == '/NewToken') ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>New Token</a>
+                    <a href="NewToken" className={(location.pathname === '/NewToken') ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>New Token</a>
                 </div>
             </nav>
             <div className="cursor-pointer flex justify-center items-center">
