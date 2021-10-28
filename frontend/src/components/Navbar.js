@@ -24,13 +24,13 @@ export default function Navbar(props) {
             <nav className="flex items-center justify-center">
                 <img className="w-35 h-10" src={NearLogo} alt="logo"/>
                 <div className="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="Tokens" className={(location.pathname === '/Tokens' || (location.pathname !== '/MyTokens' && location.pathname !== '/NewToken')) ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>All Tokens</a>
+                    <a href="Tokens" className={(location.pathname === '/Tokens' || (location.pathname !== '/MyTokens' && location.pathname !== '/NewToken')) ? "animate-pulse bg-gray-500 text-white p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 hover:text-white p-2 rounded cursor-pointer ml-1 hover:no-underline"}>All Tokens</a>
                 </div>
                 <div className="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="MyTokens" className={(location.pathname === '/MyTokens') ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>My Tokens</a>
+                    <a href="MyTokens" className={(location.pathname === '/MyTokens') ? "animate-pulse bg-gray-500 text-white p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 hover:text-white p-2 rounded cursor-pointer ml-1 hover:no-underline"}>My Tokens</a>
                 </div>
                 <div className="text-TextGray text-xs hidden sm:block ml-2">
-                    <a href="NewToken" className={(location.pathname === '/NewToken') ? "bg-gray-500 text-BlueHeader p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 p-2 rounded cursor-pointer ml-1 hover:no-underline"}>New Token</a>
+                    <a href="NewToken" className={(location.pathname === '/NewToken') ? "animate-pulse bg-gray-500 text-white p-2 rounded cursor-pointer ml-1 hover:no-underline" : "bg-NewGray hover:bg-gray-500 hover:text-white p-2 rounded cursor-pointer ml-1 hover:no-underline"}>New Token</a>
                 </div>
             </nav>
             <div className="cursor-pointer flex justify-center items-center">

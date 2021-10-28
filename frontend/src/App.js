@@ -20,7 +20,7 @@ export default function App() {
   // if not signed in, return early with sign-in prompt
   if (!window.walletConnection.isSignedIn()) {
     return (
-      <div className="pt-5">
+      <div className="pt-5 h-screen">
         <div className="w-2/3 h-2/3 bg-NewGray rounded-lg sahdow-lg p-12 flex flex-col justify-center items-center mx-auto">
           <div className="mb-2 mt-2">
             <img className="object-center object-cover rounded-full h-12 w-12" src={NearIcon} alt="logo"/>

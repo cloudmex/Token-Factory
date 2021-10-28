@@ -44,7 +44,7 @@ export default function Tokens() {
             title: '',
             html:`
                 <div style='display: flex; justify-content: center; margin-bottom:5px;'>
-                    <img className="object-center object-cover rounded-full h-15 w-15" src=${token.metadata.icon || DefaultTokenIcon} />
+                    <img className="object-center object-cover rounded-full h-15 w-15" style="border-radius: 100%;" src=${token.metadata.icon || DefaultTokenIcon} />
                 </div>
                 <div style='text-align: center;'>
                     <div><b>Name:</b> <span>${token.metadata.name}</span></div>
@@ -58,9 +58,7 @@ export default function Tokens() {
             showConfirmButton: true,
             confirmButtonText: 'Close',
             confirmButtonColor: '#3b82f6',
-            onBeforeOpen: () => {
-              Swal.showLoading()
-            }
+            backdrop: 'rgba(0, 0, 0,0.5)'
           });
     }
 
