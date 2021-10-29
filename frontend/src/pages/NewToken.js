@@ -23,7 +23,7 @@ const lsKeyCreateToken = lsKey + "createToken";
 export default function NewToken() {
     const [newToken, setNewToken] = useState({ name: "", symbol: "", supply: 1000000000, decimal: 18 });
     const [iconToken, setIconToken] = useState(null);
-    const [creatingToken, setCreatingToken] = useState(false);
+    const [creatingToken, setCreatingToken] = useState(0);
     const nameInput = React.createRef();
     const symbolInput = React.createRef();
     const supplyInput = React.createRef();
@@ -38,7 +38,7 @@ export default function NewToken() {
             if (createToken) {
                 console.log(lsKeyCreateToken);
                 ls.remove(lsKeyCreateToken);
-                setCreatingToken(true);
+                setCreatingToken(2);
                 const requiredDeposit = await computeRequiredDeposit(ft);
                 if (requiredDeposit.eq(0)) {
                     const tokenContract = new Contract(window.walletConnection.account(), contractName, {
@@ -50,7 +50,7 @@ export default function NewToken() {
                 }
                 ls.remove(lsKeyToken);
                 window.location.href = `/MyTokens`
-                setCreatingToken(false);
+                setCreatingToken(0);
             }
         }
     }, []);
@@ -106,23 +106,6 @@ export default function NewToken() {
         console.log(e, f);
     }
 
-    // const updateRequiredDeposit = (ft) => {
-    //     if (_updateRequiredDeposit) {
-    //         clearTimeout(_updateRequiredDeposit);
-    //         _updateRequiredDeposit = null;
-    //     }
-    //     _updateRequiredDeposit = setTimeout(() => internalUpdateRequiredDeposit(ft), 250);
-    // }
-
-    // const internalUpdateRequiredDeposit = async (ft) => {
-    //     if (window.walletConnection.account().accountId) {
-    //         const requiredD = await computeRequiredDeposit(ft);
-    //         if (!requiredD || requiredD !== requiredDeposit) {
-    //             setRequiredDeposit(requiredD);
-    //         }
-    //     }
-    // }
-
     const computeRequiredDeposit = async (ft) => {
         const tokenContract = new Contract(window.walletConnection.account(), contractName, {
             changeMethods: ['get_required_deposit'],
@@ -161,10 +144,12 @@ export default function NewToken() {
         }
 
         console.log(ft);
-        // updateRequiredDeposit(ft);
+        setCreatingToken(1);
 
         const requiredDeposit = await computeRequiredDeposit(ft);
 
+        setCreatingToken(0);
+        
         Swal.fire({
             title: `Create ${ft.metadata.name}`,
             html: `
@@ -181,7 +166,7 @@ export default function NewToken() {
             confirmButtonColor: '#3b82f6',
             denyButtonText: `Don't create`,
             backdrop: 'rgba(0, 0, 0,0.5)'
-        }).then( async (result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 ls.set(lsKeyToken, ft);
                 ls.set(lsKeyCreateToken, true);
@@ -201,83 +186,32 @@ export default function NewToken() {
 
     }, []);
 
-    // return (
-    //     <div className="p-10 md:w-3/4 bg-NewGray lg:w-1/2 mx-auto my-auto">
-    //         <div className="flex items-center mb-2">
-    //             <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Name</label>
-    //             <input ref={nameInput} onChange={onChange} type="text" id="TokenName" name="name" placeholder="Epic Moon Rocket" className="flex-1 py-2  focus:border-green-400 text-gray-200 placeholder-gray-400 outline-none" />
-    //         </div>
-    //         <div className="flex items-center mb-2">
-    //             <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Symbol</label>
-    //             <input ref={symbolInput} onChange={onChange} type="text" id="TokenSymbol" name="symbol" placeholder="MOON" className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-200 placeholder-gray-400 outline-none" />
-    //         </div>
-    //         <div className="flex items-center mb-2">
-    //             <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Total Supply</label>
-    //             <input ref={supplyInput} onChange={onChange} type="number" id="TotalSupply" name="supply" placeholder="1000000000" value={newToken.supply} className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-200 placeholder-gray-400 outline-none" />
-    //         </div>
-    //         <div className="flex items-center mb-2">
-    //             <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Decimal</label>
-    //             <input ref={decimalInput} onChange={onChange} type="number" id="TokenDecimal" name="decimal" placeholder="18" value={newToken.decimal} className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-200 placeholder-gray-400 outline-none" />
-    //         </div>
-    //         <div className="flex items-center mb-2">
-    //             <label htmlFor="number" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Icon</label>
-    //             <div className="form-group">
-    //                 <div className="input-group">
-    //                     <div>
-    //                         <Files
-    //                             id="tokenIcon"
-    //                             className='form-control form-control-large btn btn-outline-primary'
-    //                             onChange={(f) => onFilesChange(f)}
-    //                             onError={(e, f) => onFilesError(e, f)}
-    //                             multiple={false}
-    //                             accepts={['image/*']}
-    //                             minFileSize={1}
-    //                             clickable
-    //                         >
-    //                             Click to upload Token Icon
-    //                         </Files>
-    //                     </div>
-    //                     <div className="ml-3">
-    //                         {iconToken && (
-    //                             <img className="rounded token-icon" style={{ marginRight: '1em' }} src={iconToken} alt="Token Icon" />
-    //                         )}
-    //                     </div>
-    //                 </div>
-    //             </div>
-    //         </div>
-    //         <div className="flex items-center mb-2">
-    //             <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600"></label>
-    //             <p>Issue a new token. It'll cost you <span className="font-weight-bold">{requiredDeposit ? fromYocto(requiredDeposit) : 0} Ⓝ</span></p>
-    //         </div>
-    //         <div className="text-right">
-    //             <button className="py-3 px-8 bg-blue-500 hover:bg-blue-700 text-white font-bold text-xs rounded" onClick={saveNewToken}>Create Token</button>
-    //         </div>
-    //     </div>
-    // );
-
-
-    const content = creatingToken ? (
+    const content = (creatingToken === 2) ? (
         <div className="animate-bounce p-10 md:w-3/4  lg:w-1/2 mx-auto my-auto border border-blue-300 shadow rounded-md">
             <div className="text-center">Creating your token, please wait... <span className="spinner-grow spinner-grow-lg" role="status" aria-hidden="true"></span></div>
+        </div>
+    ) : (creatingToken === 1) ? (
+        <div className="animate-bounce p-10 md:w-3/4  lg:w-1/2 mx-auto my-auto border border-blue-300 shadow rounded-md">
+            <div className="text-center">Calculating creation cost... <span className="spinner-grow spinner-grow-lg" role="status" aria-hidden="true"></span></div>
         </div>
     ) :
         (
             <div className="p-10 md:w-3/4 bg-NewGray lg:w-1/2 mx-auto my-auto">
                 <div className="flex items-center mb-2">
                     <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Name</label>
-                    <input ref={nameInput} onChange={onChange} type="text" id="TokenName" name="name" placeholder="Epic Moon Rocket" className="flex-1 py-2  focus:border-green-400 text-gray-200 placeholder-gray-400 outline-none" />
+                    <input ref={nameInput} onChange={onChange} type="text" id="TokenName" name="name" placeholder="Epic Moon Rocket" className="flex-1 py-2 focus:border-green-400 text-gray-500 placeholder-gray-400 outline-none border-solid border border-InputBorderBlue bg-InputBackgroundBlue" />
                 </div>
                 <div className="flex items-center mb-2">
                     <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Symbol</label>
-                    <input ref={symbolInput} onChange={onChange} type="text" id="TokenSymbol" name="symbol" placeholder="MOON" className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-200 placeholder-gray-400 outline-none" />
+                    <input ref={symbolInput} onChange={onChange} type="text" id="TokenSymbol" name="symbol" placeholder="MOON" className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-500 placeholder-gray-400 outline-none border-solid border border-InputBorderBlue bg-InputBackgroundBlue" />
                 </div>
                 <div className="flex items-center mb-2">
                     <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Total Supply</label>
-                    <input ref={supplyInput} onChange={onChange} type="number" id="TotalSupply" name="supply" placeholder="1000000000" value={newToken.supply} className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-200 placeholder-gray-400 outline-none" />
+                    <input ref={supplyInput} onChange={onChange} type="number" id="TotalSupply" name="supply" placeholder="1000000000" value={newToken.supply} className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-500 placeholder-gray-400 outline-none border-solid border border-InputBorderBlue bg-InputBackgroundBlue" />
                 </div>
                 <div className="flex items-center mb-2">
                     <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Decimal</label>
-                    <input ref={decimalInput} onChange={onChange} type="number" id="TokenDecimal" name="decimal" placeholder="18" value={newToken.decimal} className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-200 placeholder-gray-400 outline-none" />
+                    <input ref={decimalInput} onChange={onChange} type="number" id="TokenDecimal" name="decimal" placeholder="18" value={newToken.decimal} className="flex-1 py-2 border-b-2 border-gray-400 focus:border-green-400 text-gray-500 placeholder-gray-400 outline-none border-solid border border-InputBorderBlue bg-InputBackgroundBlue" />
                 </div>
                 <div className="flex items-center mb-2">
                     <label htmlFor="number" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Icon</label>

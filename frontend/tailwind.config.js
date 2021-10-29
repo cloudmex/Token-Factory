@@ -9,7 +9,9 @@ module.exports = {
       'NearBlack': '#262626',
       'NewGray': '#f4f4f4',
       'NearNavBar': '#f0f0f1',
-      'TextGray' : '#72727a'
+      'TextGray' : '#72727a',
+      'InputBackgroundBlue' : 'rgb(240, 249, 255)',
+      'InputBorderBlue' : 'rgb(143, 205, 255)'
     }),
     textColor: theme => ({
       ...theme('colors'),
