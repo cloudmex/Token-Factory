@@ -15,7 +15,8 @@ module.exports = {
     }),
     textColor: theme => ({
       ...theme('colors'),
-      'BlueHeader': '#0056b4'
+      'BlueHeader': '#0056b4',
+      'Error': '#e83e8c'
     })
   },
   variants: {
