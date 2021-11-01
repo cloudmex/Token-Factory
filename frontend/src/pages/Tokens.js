@@ -19,7 +19,6 @@ export default function Tokens() {
 
             window.contract.get_number_of_tokens()
                 .then(numTokens => {
-                    console.log(numTokens);
                     window.contract.get_tokens({ from_index: 0, limit: numTokens })
                         .then(tokens => {
                             setTokens(tokens);
