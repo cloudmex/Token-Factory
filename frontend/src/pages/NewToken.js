@@ -52,8 +52,10 @@ export default function NewToken() {
             if (createToken) {
                 ls.remove(lsKeyCreateToken);
                 setCreatingToken(2);
-                const requiredDeposit = await computeRequiredDeposit(ft);
-                if (requiredDeposit.eq(0)) {
+                let requiredDeposit = await computeRequiredDeposit(ft);
+                const tokenCost = Big(requiredDeposit);
+
+                if (tokenCost.eq(0)) {
                     const tokenContract = new Contract(window.walletConnection.account(), contractName, {
                         changeMethods: ['create_token'],
                     });
@@ -136,9 +138,11 @@ export default function NewToken() {
             changeMethods: ['get_required_deposit'],
         });
 
-        return Big(await tokenContract.get_required_deposit({
+        const costCreateToken = await tokenContract.get_required_deposit({
             args: ft, account_id: window.walletConnection.account().accountId
-        }));
+        });
+
+        return(costCreateToken)
 
     }
 
@@ -183,6 +187,10 @@ export default function NewToken() {
         setCreatingToken(1);
 
         const requiredDeposit = await computeRequiredDeposit(ft);
+        console.log("Costo Token: "+Big(requiredDeposit));
+        const costCreateTokenFee = parseInt(requiredDeposit)+1010000000000000000000000;
+        console.log("Costo Token + Comisión: "+Big(costCreateTokenFee));
+        const tokenCost = Big(costCreateTokenFee);
 
         setCreatingToken(0);
 
@@ -194,7 +202,7 @@ export default function NewToken() {
                 </div>
                 <div className="flex items-center mb-2">
                     <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600"></label>
-                    <p>Issue a new token. It'll cost you <span className="font-weight-bold">${requiredDeposit ? fromYocto(requiredDeposit) : 0} Ⓝ</span></p>
+                    <p>Issue a new token. It'll cost you <span className="font-weight-bold">${tokenCost ? fromYocto(tokenCost) : 0} Ⓝ</span></p>
                 </div>
                 `,
             showDenyButton: true,
@@ -211,7 +219,7 @@ export default function NewToken() {
                     changeMethods: ['storage_deposit'],
                 });
 
-                await tokenContract.storage_deposit({}, BoatOfGas.toFixed(0), requiredDeposit.toFixed(0));
+                await tokenContract.storage_deposit({}, BoatOfGas.toFixed(0), tokenCost.toFixed(0));
             } else if (result.isDenied) {
 
             }
@@ -232,7 +240,7 @@ export default function NewToken() {
         </div>
     ) :
         (
-            <div className="p-10 md:w-3/4 bg-NewGray lg:w-1/2 mx-auto my-auto">
+            <div className="p-10 md:w-3/4 bg-NewGray lg:w-1/2 mx-auto my-3">
                 <div className="flex items-center mb-2">
                     <label htmlFor="name" className="inline-block w-20 mr-6 text-right font-bold text-gray-600">Token Name</label>
                     <input ref={nameInput} onChange={onChange} type="text" id="TokenName" name="name" placeholder="Epic Moon Rocket" className="flex-1 py-2 focus:border-green-400 text-gray-500 placeholder-gray-400 outline-none border-solid border border-InputBorderBlue bg-InputBackgroundBlue" />

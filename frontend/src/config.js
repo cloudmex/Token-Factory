@@ -1,4 +1,4 @@
-const CONTRACT_NAME = 'dev-1634069815926-48042760709553'
+const CONTRACT_NAME = 'dev-1636062602060-11899408775565'
 
 function getConfig(env) {
   switch (env) {

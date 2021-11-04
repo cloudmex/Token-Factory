@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { Menu, Transition } from '@headlessui/react';
+import { Menu } from '@headlessui/react';
 import React, { useEffect } from "react";
-import { Fragment } from 'react';
 import { NavDropdown } from 'react-bootstrap';
 import NearLogo from "../assets/img/TokenFactoryLogo.png";
 
