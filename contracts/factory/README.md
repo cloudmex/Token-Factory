@@ -1,10 +1,11 @@
 EXAMPLE
-CONTRACT=dev-1634618467984-96560315274593
+CONTRACT=dev-1636062602060-11899408775565
 YOUR_ACCOUNT=yairnava.testnet
 
 Initialize contract
 
-    near call $CONTRACT new '{}' --account_id $YOUR_ACCOUNT 
+    // 1 NEAR = 1000000000000000000000000
+    near call $CONTRACT new '{"fee_account":"missael.testnet","fee":"1000000000000000000000000"}' --account_id $YOUR_ACCOUNT 
 
 Get required cost to create a token
 
@@ -25,7 +26,7 @@ Get required cost to create a token
 
 Deposit funds
 
-    near call $CONTRACT storage_deposit '{}' --account_id $YOUR_ACCOUNT  --amount 3 --gas=200000000000000  
+    near call $CONTRACT storage_deposit '{}' --account_id $YOUR_ACCOUNT  --amount 3.5 --gas=200000000000000  
 
 Create a new token
 
@@ -41,7 +42,7 @@ Create a new token
                 "decimals": 18
             }
         }
-    }' --account_id $YOUR_ACCOUNT --amount 3 --gas=200000000000000
+    }' --account_id $YOUR_ACCOUNT --amount 3.5 --gas=200000000000000
 
 Get number of tokens
 

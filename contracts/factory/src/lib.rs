@@ -15,6 +15,7 @@ const FT_WASM_CODE: &[u8] = include_bytes!("../../token/res/fungible_token.wasm"
 
 const EXTRA_BYTES: usize = 10000;
 const GAS: Gas = 50_000_000_000_000;
+
 type TokenId = String;
 
 pub fn is_valid_token_id(token_id: &TokenId) -> bool {
@@ -39,6 +40,8 @@ pub struct TokenFactory {
     pub tokens: UnorderedMap<TokenId, TokenArgs>,
     pub storage_deposits: LookupMap<AccountId, Balance>,
     pub storage_balance_cost: Balance,
+    pub fee_account: ValidAccountId,
+    pub fee: u128,
 }
 
 #[derive(Serialize, Deserialize, BorshDeserialize, BorshSerialize)]
@@ -53,9 +56,8 @@ pub struct TokenArgs {
 impl TokenFactory {
     // Method to initialize the contract
     #[init]
-    pub fn new() -> Self {
+    pub fn new(fee_account: ValidAccountId, fee: String) -> Self {
         let mut storage_deposits = LookupMap::new(StorageKey::StorageDeposits);
-
         let initial_storage_usage = env::storage_usage();
         let tmp_account_id = "a".repeat(64);
         storage_deposits.insert(&tmp_account_id, &0);
@@ -67,6 +69,8 @@ impl TokenFactory {
             tokens: UnorderedMap::new(StorageKey::Tokens),
             storage_deposits,
             storage_balance_cost,
+            fee_account : fee_account,
+            fee : fee.parse::<u128>().unwrap(),
         }
     }
 
@@ -91,13 +95,32 @@ impl TokenFactory {
     pub fn storage_deposit(&mut self) {
         let account_id = env::predecessor_account_id();
         let deposit = env::attached_deposit();
+
+        // Comisión por creación
+        let tokencost = deposit-self.fee;
+        
+        let fee_a = format!("Fee account: {}", &self.fee_account );
+        env::log(fee_a.as_bytes());
+
+        let fee_c = format!("Fee amount: {}", &self.fee );
+        env::log(fee_c.as_bytes());
+
+        let totaldeposit = format!("Total deposit: {}", &deposit );
+        env::log(totaldeposit.as_bytes());
+
+        let costfortoken = format!("Cost token: {}", &tokencost );
+        env::log(costfortoken.as_bytes());
+
+        // Cuenta a donde se va el fee
+        Promise::new(self.fee_account.to_string()).transfer(self.fee as u128);
+
         if let Some(previous_balance) = self.storage_deposits.get(&account_id) {
             self.storage_deposits
-                .insert(&account_id, &(previous_balance + deposit));
+                .insert(&account_id, &(previous_balance + tokencost));
         } else {
-            assert!(deposit >= self.storage_balance_cost, "Deposit is too low");
+            assert!(tokencost >= self.storage_balance_cost, "Deposit is too low");
             self.storage_deposits
-                .insert(&account_id, &(deposit - self.storage_balance_cost));
+                .insert(&account_id, &(tokencost - self.storage_balance_cost));
         }
     }
 
