@@ -6,7 +6,7 @@ import { Contract } from 'near-api-js'
 import Big from 'big.js';
 import Swal from 'sweetalert2'
 
-const { contractName } = getConfig(process.env.NODE_ENV || 'development')
+const { contractName } = getConfig('production')
 const TGas = Big(10).pow(12);
 const BoatOfGas = Big(200).mul(TGas);
 const StorageDeposit = Big(125).mul(Big(10).pow(19));

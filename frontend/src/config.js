@@ -1,4 +1,4 @@
-const CONTRACT_NAME = 'dev-1636062602060-11899408775565'
+const CONTRACT_NAME = 'newtoken.near'
 
 function getConfig(env) {
   switch (env) {
