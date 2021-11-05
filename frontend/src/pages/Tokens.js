@@ -56,7 +56,7 @@ export default function Tokens() {
             showCancelButton: false,
             showConfirmButton: true,
             confirmButtonText: 'Close',
-            confirmButtonColor: '#3b82f6',
+            confirmButtonColor: '#ff4a17',
             backdrop: 'rgba(0, 0, 0,0.5)'
           });
     }
@@ -73,7 +73,7 @@ export default function Tokens() {
                         {/* <p className="text-base text-NearBlack font-normal">{token.metadata.symbol}</p> */}
                     </div>
                     <div className="mb-2">
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 text-xs rounded" onClick={() => registerToken(token.metadata.symbol)}>
+                        <button className="bg-MenuOptionSelect text-white font-bold px-3 text-xs rounded" onClick={() => registerToken(token.metadata.symbol)}>
                             Add to NEAR<br/>Wallet
                         </button>
                     </div>
