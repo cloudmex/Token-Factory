@@ -40,7 +40,7 @@ pub struct TokenFactory {
     pub tokens: UnorderedMap<TokenId, TokenArgs>,
     pub storage_deposits: LookupMap<AccountId, Balance>,
     pub storage_balance_cost: Balance,
-    pub fee_account: ValidAccountId,
+    pub treasury_id: ValidAccountId,
     pub fee: u128,
 }
 
@@ -56,7 +56,7 @@ pub struct TokenArgs {
 impl TokenFactory {
     // Method to initialize the contract
     #[init]
-    pub fn new(fee_account: ValidAccountId, fee: String) -> Self {
+    pub fn new(treasury_id: ValidAccountId, fee: String) -> Self {
         let mut storage_deposits = LookupMap::new(StorageKey::StorageDeposits);
         let initial_storage_usage = env::storage_usage();
         let tmp_account_id = "a".repeat(64);
@@ -69,7 +69,7 @@ impl TokenFactory {
             tokens: UnorderedMap::new(StorageKey::Tokens),
             storage_deposits,
             storage_balance_cost,
-            fee_account : fee_account,
+            treasury_id : treasury_id,
             fee : fee.parse::<u128>().unwrap(),
         }
     }
@@ -99,7 +99,7 @@ impl TokenFactory {
         // Comisión por creación
         let tokencost = deposit-self.fee;
         
-        let fee_a = format!("Fee account: {}", &self.fee_account );
+        let fee_a = format!("Fee account: {}", &self.treasury_id );
         env::log(fee_a.as_bytes());
 
         let fee_c = format!("Fee amount: {}", &self.fee );
@@ -112,7 +112,7 @@ impl TokenFactory {
         env::log(costfortoken.as_bytes());
 
         // Cuenta a donde se va el fee
-        Promise::new(self.fee_account.to_string()).transfer(self.fee as u128);
+        Promise::new(self.treasury_id.to_string()).transfer(self.fee as u128);
 
         if let Some(previous_balance) = self.storage_deposits.get(&account_id) {
             self.storage_deposits
