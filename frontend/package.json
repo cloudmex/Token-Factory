@@ -1,8 +1,7 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "homepage": "token-factory",
-  "private": true,
+  "homepage": "",
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@fortawesome/fontawesome-free": "^5.15.3",

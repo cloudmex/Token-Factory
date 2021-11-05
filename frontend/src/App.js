@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { login } from './utils'
 import "./App.css";
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import NearIcon from './assets/img/near_icon.png';
 import MyTokens from './pages/MyTokens';
 import NewToken from './pages/NewToken';
@@ -32,7 +33,7 @@ export default function App() {
             <p className="text-base text-NearBlack font-normal">In order to create your own fungible token, you need to sign in. The button below will sign you in using NEAR Wallet.</p>
           </div>
           <div className="mb-2">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 text-xs rounded py-1" onClick={login}>
+            <button className="bg-MenuOptionSelect text-white font-bold px-3 text-xs rounded py-1" onClick={login}>
               Sign in
             </button>
           </div>
@@ -54,6 +55,9 @@ export default function App() {
           <Route exact path="/Tokens" component={Tokens} />
           <Redirect from="*" to="/" />
         </Switch>
+        <div className="fixed bottom-0 right-0 left-0">
+          <Footer/>
+        </div>
       </div>
     </>
   )

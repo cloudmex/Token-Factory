@@ -6,7 +6,7 @@ import { Contract } from 'near-api-js'
 import Big from 'big.js';
 import Swal from 'sweetalert2'
 
-const { contractName } = getConfig(process.env.NODE_ENV || 'development')
+const { contractName } = getConfig('production')
 const TGas = Big(10).pow(12);
 const BoatOfGas = Big(200).mul(TGas);
 const StorageDeposit = Big(125).mul(Big(10).pow(19));
@@ -19,7 +19,6 @@ export default function Tokens() {
 
             window.contract.get_number_of_tokens()
                 .then(numTokens => {
-                    console.log(numTokens);
                     window.contract.get_tokens({ from_index: 0, limit: numTokens })
                         .then(tokens => {
                             setTokens(tokens);
@@ -57,7 +56,7 @@ export default function Tokens() {
             showCancelButton: false,
             showConfirmButton: true,
             confirmButtonText: 'Close',
-            confirmButtonColor: '#3b82f6',
+            confirmButtonColor: '#ff4a17',
             backdrop: 'rgba(0, 0, 0,0.5)'
           });
     }
@@ -74,7 +73,7 @@ export default function Tokens() {
                         {/* <p className="text-base text-NearBlack font-normal">{token.metadata.symbol}</p> */}
                     </div>
                     <div className="mb-2">
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 text-xs rounded" onClick={() => registerToken(token.metadata.symbol)}>
+                        <button className="bg-MenuOptionSelect text-white font-bold px-3 text-xs rounded" onClick={() => registerToken(token.metadata.symbol)}>
                             Add to NEAR<br/>Wallet
                         </button>
                     </div>

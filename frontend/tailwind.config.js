@@ -11,11 +11,15 @@ module.exports = {
       'NearNavBar': '#f0f0f1',
       'TextGray' : '#72727a',
       'InputBackgroundBlue' : 'rgb(240, 249, 255)',
-      'InputBorderBlue' : 'rgb(143, 205, 255)'
+      'InputBorderBlue' : 'rgb(143, 205, 255)',
+      'FooterColor' : '#121d24',
+      'NavBarColor' : 'rgba(21, 34, 43, 0.85)',
+      'MenuOptionSelect' : '#ff4a17'
     }),
     textColor: theme => ({
       ...theme('colors'),
-      'BlueHeader': '#0056b4'
+      'BlueHeader': '#0056b4',
+      'Error': '#e83e8c'
     })
   },
   variants: {
