@@ -5,7 +5,7 @@ YOUR_ACCOUNT=yairnava.testnet
 Initialize contract
 
     // 1 NEAR = 1000000000000000000000000
-    near call $CONTRACT new '{"fee_account":"missael.testnet","fee":"1000000000000000000000000"}' --account_id $YOUR_ACCOUNT 
+    near call $CONTRACT new '{"treasury_id":"missael.testnet","fee":"1000000000000000000000000"}' --account_id $YOUR_ACCOUNT 
 
 Get required cost to create a token
 
